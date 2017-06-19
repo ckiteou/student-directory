@@ -17,8 +17,9 @@ def print_header
 end
 
 def print(student)
-  student.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+  student.each_with_index do |student, index|
+    index +=1
+    puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
   end
 end
 
