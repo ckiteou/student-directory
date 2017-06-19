@@ -16,9 +16,17 @@ def print_header
   puts  "-------------"
 end
 
+def select_name_starting_with_c(student)
+  to_return = []
+  student.each do |student|
+    to_return << student if student[:name].start_with?("C") || student[:name].start_with?("c")
+  end
+  to_return
+end
+
 def print(student)
   student.each_with_index do |student, index|
-    index +=1
+    index += 1
     puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
   end
 end
@@ -29,5 +37,6 @@ end
 
 students = input_students
 print_header
-print(students)
-print_footer(students)
+c_named_students = select_name_starting_with_c(students)
+print(c_named_students)
+print_footer(c_named_students)
