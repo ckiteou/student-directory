@@ -16,10 +16,10 @@ def print_header
   puts  "-------------"
 end
 
-def select_name_starting_with_c(student)
+def select_name_shorter_than_12(student)
   to_return = []
   student.each do |student|
-    to_return << student if student[:name].start_with?("C") || student[:name].start_with?("c")
+    to_return << student if student[:name].length < 12
   end
   to_return
 end
@@ -37,6 +37,6 @@ end
 
 students = input_students
 print_header
-c_named_students = select_name_starting_with_c(students)
-print(c_named_students)
-print_footer(c_named_students)
+shorter_than_12 = select_name_shorter_than_12(students)
+print(shorter_than_12)
+print_footer(shorter_than_12)
