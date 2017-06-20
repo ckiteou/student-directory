@@ -24,10 +24,28 @@ def select_name_shorter_than_12(student)
   to_return
 end
 
+def select_name_starting_with_c(student)
+  to_return = []
+  student.each do |student|
+    to_return << student if student[:name].start_with?("C") || student[:name].start_with?("c")
+  end
+  to_return
+end
+
+def select_name_shorter_than_12(student)
+  to_return = []
+  student.each do |student|
+    to_return << student if student[:name].length < 12
+  end
+  to_return
+end
+
 def print(student)
-  student.each_with_index do |student, index|
-    index += 1
-    puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
+  while student != nil
+    student.collect do |student|
+      puts "#{student[:name]} (#{student[:cohort]} cohort)"
+    end
+    break
   end
 end
 
@@ -38,5 +56,6 @@ end
 students = input_students
 print_header
 shorter_than_12 = select_name_shorter_than_12(students)
-print(shorter_than_12)
-print_footer(shorter_than_12)
+shorter_than_12_and_only_c = select_name_starting_with_c(shorter_than_12)
+print(shorter_than_12_and_only_c)
+print_footer(shorter_than_12_and_only_c)
