@@ -13,7 +13,7 @@ def input_students
     puts "Please enter the student's country of birth:"
     c_o_b = gets.chomp
     students << {name: name, hobbie: hobbie, height: height, postcode: postcode, c_o_b: c_o_b, cohort: :november}
-    puts "Now we have #{students.count} students.\nTo enter another student press any key, otherwise press 'Enter'"
+    puts "Now we have #{students.count} students.\nTo enter another student press any key and hit 'Enter', otherwise just press 'Enter'"
     response = gets.chomp
   end
   students
@@ -51,7 +51,8 @@ end
 def print(student)
   while student != nil
     student.collect do |student|
-      puts "Name: #{student[:name]}, Hobbie: #{student[:hobbie]}, Height: #{student[:height]} metres, Postcode: #{student[:postcode]}, Country of Birth: #{student[:c_o_b]}, (#{student[:cohort]} cohort)"
+      puts "#{student[:name].center(34,"-")}\n#{student[:hobbie].center(34,"-")}\n#{student[:height].center(34,"-")}\n#{student[:postcode].center(34,"-")}\n#{student[:c_o_b].center(34,"-")}\n" + "(#{student[:cohort]} cohort)".center(34,"-")
+      puts
     end
     break
   end
