@@ -1,44 +1,41 @@
 def input_students
-  puts 'Please enter the name of the student'
+  print 'Please enter the name of the student: '
   students = []
-  name = gets.chomp
+  name = gets.delete("\n")
   while !name.empty?
+    print "Age: "
+    age = gets.delete("\n")
     print "Hobby: "
-    hobbie = gets.chomp
-    print "Height: "
-    height = gets.chomp
+    hobby = gets.delete("\n")
     print "Postcode: "
-    postcode = gets.chomp
-    print "Contry of Birth: "
-    c_o_b = gets.chomp
-    re_enter = "R"
-    while re_enter == "R"
+    postcode = gets.delete("\n")
+    print "Country of Birth: "
+    c_o_b = gets.delete("\n")
+    re_enter = "a"
+    while re_enter == "a"
     print "Cohort: "
-    cohort = gets.chomp
-      if cohort.empty?
-        cohort = "November"
-        cohort = cohort
-      end
-        print "Press 'R' to re-enter cohort, otherwise press any key to carry on"
-        re_enter = gets.chomp
+    cohort = gets.delete("\n").to_sym
+    if cohort.empty?
+      cohort = :November
     end
-    students << {name: name, hobbie: hobbie, height: height, postcode: postcode, c_o_b: c_o_b, cohort: cohort}
+    puts "To re-enter cohort type 'a' and press return or press return to continue"
+    re_enter = gets.delete("\n")
+    end
+    students << {name: name, age: age, hobby: hobby, postcode: postcode, c_o_b: c_o_b, cohort: cohort}
     if students.count == 1
       puts "Now we have #{students.count} student."
     else
       puts "Now we have #{students.count} students."
     end
-    puts "Enter another student or hit return to finish"
-    name = gets.chomp
+    puts "Enter another student or press return to finish"
+    name = gets.delete("\n")
   end
   students
 end
 
-#students = []
-
 def print_header
-  puts  "The Students of Villains Academy".center(34,"*")
-  puts  "----------------------------------"
+  puts  "The Students of Villains Academy".center(140)
+  puts  "----------------------------------".center(140)
 end
 
 def select_name_shorter_than_12(student)
@@ -58,14 +55,14 @@ def select_name_starting_with_char(student)
 end
 
 def print_students(students)
-  students.sort_by! { |student| :cohort }
+  students.sort_by! { |student| student[:cohort] }
   students.each do |student|
     print ("Name: #{student[:name]} ".ljust(24))
-    print ("Hobbie: #{student[:hobbie]} ".ljust(24))
-    print ("Height: #{student[:height]} ".ljust(24))
+    print ("Age: #{student[:age]} ".ljust(24))
+    print ("Hobby: #{student[:hobby]} ".ljust(24))
     print ("Postcode: #{student[:postcode]} ".ljust(24))
     print ("Country of Birth: #{student[:c_o_b]} ".ljust(24))
-    print ("Cohort #{student[:cohort]} ".ljust(24))
+    print ("Cohort: #{student[:cohort]} ".ljust(24))
     print "\n"
   end
 end
