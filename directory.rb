@@ -1,6 +1,5 @@
 def input_students
   puts 'Please enter the name of the student'
-  puts "To finish, just hit enter twice"
   students = []
   name = gets.chomp
   while !name.empty?
@@ -12,9 +11,10 @@ def input_students
     postcode = gets.chomp
     print "Contry of Birth: "
     c_o_b = gets.chomp
+    re_enter = "R"
+    while re_enter == "R"
     print "Cohort: "
     cohort = gets.chomp
-    while !cohort.empty?
       if cohort.empty?
         cohort = "November"
         cohort = cohort
@@ -23,7 +23,12 @@ def input_students
         re_enter = gets.chomp
     end
     students << {name: name, hobbie: hobbie, height: height, postcode: postcode, c_o_b: c_o_b, cohort: cohort}
-    puts "Now we have #{students.count} students.'"
+    if students.count == 1
+      puts "Now we have #{students.count} student."
+    else
+      puts "Now we have #{students.count} students."
+    end
+    puts "Enter another student or hit return to finish"
     name = gets.chomp
   end
   students
@@ -55,13 +60,13 @@ end
 def print_students(students)
   students.sort_by! { |student| :cohort }
   students.each do |student|
-    puts
     print ("Name: #{student[:name]} ".ljust(24))
     print ("Hobbie: #{student[:hobbie]} ".ljust(24))
     print ("Height: #{student[:height]} ".ljust(24))
     print ("Postcode: #{student[:postcode]} ".ljust(24))
     print ("Country of Birth: #{student[:c_o_b]} ".ljust(24))
     print ("Cohort #{student[:cohort]} ".ljust(24))
+    print "\n"
   end
 end
 
