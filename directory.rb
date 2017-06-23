@@ -1,31 +1,41 @@
+@students =
+
 def interactive_menu
-  students = []
   loop do
-    #.1 print the menu and ask the user what to do
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "9. Exit" #because we will be adding more items
-    #.2 read the input and asve it into a variable
-    selection = gets.chomp
-    #3. do what the user has asked
-    case selection
-    when "1"
-      students = input_students
-    when "2"
-      print_header
-      shorter_than_12 = select_name_shorter_than_12(students)
-      shorter_than_12_and_only_char = select_name_starting_with_char(shorter_than_12)
-      print_students(shorter_than_12_and_only_char)
-      print_footer(shorter_than_12_and_only_char)
-    when "9"
-      exit # thiswill cause the program to terminate
-    end
+    print_menu
+    process(gets.chomp)
+  end
+end
+
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exit"
+end
+
+def show_students
+  print_header
+  #shorter_than_12 = select_name_shorter_than_12(@students)
+  #shorter_than_12_and_only_char = select_name_starting_with_char(shorter_than_12)
+  print_students_list
+  print_footer
+end
+
+def process(selection)
+  case selection
+  when "1"
+    input_students
+  when "2"
+    show_students
+  when "9"
+    exit # thiswill cause the program to terminate
+  else
+    puts "I don't know what you mean, try again"
   end
 end
 
 def input_students
   print 'Please enter the name of the student: '
-  students = []
   name = gets.delete("\n")
   while !name.empty?
     print "Age: "
@@ -46,23 +56,22 @@ def input_students
     puts "To re-enter cohort type 'a' and press return or press return to continue"
     re_enter = gets.delete("\n")
     end
-    students << {name: name, age: age, hobby: hobby, postcode: postcode, c_o_b: c_o_b, cohort: cohort}
-    if students.count == 1
-      puts "Now we have #{students.count} student."
+    @students << {name: name, age: age, hobby: hobby, postcode: postcode, c_o_b: c_o_b, cohort: cohort}
+    if @students.count == 1
+      puts "Now we have #{@students.count} student."
     else
-      puts "Now we have #{students.count} students."
+      puts "Now we have #{@students.count} students."
     end
     puts "Enter another student or press return to finish"
     name = gets.delete("\n")
   end
-  students
 end
 
 def print_header
   puts  "The Students of Villains Academy".center(140)
-  puts  "----------------------------------".center(140)
+  puts  "--------------------------------".center(140)
 end
-
+=begin
 def select_name_shorter_than_12(student)
   to_return = []
   student.each do |student|
@@ -70,7 +79,8 @@ def select_name_shorter_than_12(student)
   end
   to_return
 end
-
+=end
+=begin
 def select_name_starting_with_char(student)
   to_return = []
   student.each do |student|
@@ -78,10 +88,10 @@ def select_name_starting_with_char(student)
   end
   to_return
 end
-
-def print_students(students)
-  students.sort_by! { |student| student[:cohort] }
-  students.each do |student|
+=end
+def print_students_list
+  @students.sort_by! { |student| student[:cohort] }
+  @students.each do |student|
     print ("Name: #{student[:name]} ".ljust(24))
     print ("Age: #{student[:age]} ".ljust(24))
     print ("Hobby: #{student[:hobby]} ".ljust(24))
@@ -92,9 +102,9 @@ def print_students(students)
   end
 end
 
-def print_footer(names)
+def print_footer
   puts
-  puts "Overall, we have #{names.count} great students"
+  puts "Overall, we have #{@students.count} great students"
 end
 
 interactive_menu
