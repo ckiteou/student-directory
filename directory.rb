@@ -91,7 +91,6 @@ def select_name_shorter_than_12(student)
   end
   to_return
 end
-
 def select_name_starting_with_char(student)
   to_return = []
   student.each do |student|
