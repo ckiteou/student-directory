@@ -11,6 +11,7 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
+  puts "4. Load the list from the students.csv"
   puts "9. Exit"
 end
 
@@ -30,11 +31,22 @@ def process(selection)
     show_students
   when "3"
     save_students
+  when "4"
+    load_students
   when "9"
     exit # thiswill cause the program to terminate
   else
     puts "I don't know what you mean, try again"
   end
+end
+
+def load_students
+  file = File.open("students.csv", "r")
+  file.readlines.each do |line|
+    name, age, hobby, postcode, c_o_b, cohort = line.chomp.split(",")
+    @students << {name: name, age: age, hobby: hobby, postcode: postcode, c_o_b: c_o_b, cohort: cohort.to_sym}
+  end
+  file.close
 end
 
 def save_students
@@ -62,7 +74,8 @@ def input_students
     re_enter = "a"
     while re_enter == "a"
     print "Cohort: "
-    cohort = gets.delete("\n").to_sym
+    cohort = gets.delete("\n")
+    cohort = cohort.to_sym
     if cohort.empty?
       cohort = :November
     end
@@ -101,7 +114,7 @@ def select_name_starting_with_char(student)
 end
 =end
 def print_students_list
-  @students.sort_by! { |student| student[:cohort] }
+  @students.sort_by! { |student| :cohort }
   @students.each do |student|
     print ("Name: #{student[:name]} ".ljust(24))
     print ("Age: #{student[:age]} ".ljust(24))
@@ -109,7 +122,7 @@ def print_students_list
     print ("Postcode: #{student[:postcode]} ".ljust(24))
     print ("Country of Birth: #{student[:c_o_b]} ".ljust(24))
     print ("Cohort: #{student[:cohort]} ".ljust(24))
-    print "\n"
+    print ("\n")
   end
 end
 
