@@ -1,3 +1,28 @@
+def interactive_menu
+  students = []
+  loop do
+    #.1 print the menu and ask the user what to do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit" #because we will be adding more items
+    #.2 read the input and asve it into a variable
+    selection = gets.chomp
+    #3. do what the user has asked
+    case selection
+    when "1"
+      students = input_students
+    when "2"
+      print_header
+      shorter_than_12 = select_name_shorter_than_12(students)
+      shorter_than_12_and_only_char = select_name_starting_with_char(shorter_than_12)
+      print_students(shorter_than_12_and_only_char)
+      print_footer(shorter_than_12_and_only_char)
+    when "9"
+      exit # thiswill cause the program to terminate
+    end
+  end
+end
+
 def input_students
   print 'Please enter the name of the student: '
   students = []
@@ -72,9 +97,4 @@ def print_footer(names)
   puts "Overall, we have #{names.count} great students"
 end
 
-students = input_students
-print_header
-shorter_than_12 = select_name_shorter_than_12(students)
-shorter_than_12_and_only_char = select_name_starting_with_char(shorter_than_12)
-print_students(shorter_than_12_and_only_char)
-print_footer(shorter_than_12_and_only_char)
+interactive_menu
