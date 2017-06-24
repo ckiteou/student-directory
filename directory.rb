@@ -3,7 +3,7 @@
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
@@ -40,11 +40,23 @@ def process(selection)
   end
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def try_load_students
+  filename = ARGV.first # first argument from the command line
+  return if filename.nil? # get out of the method if it isn't given
+  if File.exists?(filename) # if it exists
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else #if it doesn't exists
+    puts "Sorry, #{filename} doesn't exist."
+    exit # quit the program
+  end
+end
+
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
     name, age, hobby, postcode, c_o_b, cohort = line.chomp.split(",")
-    @students << {name: name, age: age, hobby: hobby, postcode: postcode, c_o_b: c_o_b, cohort: cohort.to_sym}
+    add_students_to_var(name, age, hobby, postcode, c_o_b, cohort)
   end
   file.close
 end
@@ -59,37 +71,40 @@ def save_students
   file.close
 end
 
+def add_students_to_var(name, age, hobby, postcode, c_o_b, cohort)
+  @students << {name: name, age: age, hobby: hobby, postcode: postcode, c_o_b: c_o_b, cohort: cohort.to_sym}
+end
+
 def input_students
   print 'Please enter the name of the student: '
-  name = gets.delete("\n")
+  name = STDIN.gets.delete("\n")
   while !name.empty?
     print "Age: "
-    age = gets.delete("\n")
+    age = STDIN.gets.delete("\n")
     print "Hobby: "
-    hobby = gets.delete("\n")
+    hobby = STDIN.gets.delete("\n")
     print "Postcode: "
-    postcode = gets.delete("\n")
+    postcode = STDIN.gets.delete("\n")
     print "Country of Birth: "
-    c_o_b = gets.delete("\n")
+    c_o_b = STDIN.gets.delete("\n")
     re_enter = "a"
     while re_enter == "a"
     print "Cohort: "
-    cohort = gets.delete("\n")
-    cohort = cohort.to_sym
+    cohort = STDIN.gets.delete("\n")
     if cohort.empty?
-      cohort = :November
+      cohort = "November"
     end
     puts "To re-enter cohort type 'a' and press return or press return to continue"
-    re_enter = gets.delete("\n")
+    re_enter = STDIN.gets.delete("\n")
     end
-    @students << {name: name, age: age, hobby: hobby, postcode: postcode, c_o_b: c_o_b, cohort: cohort}
+    add_students_to_var(name, age, hobby, postcode, c_o_b, cohort)
     if @students.count == 1
       puts "Now we have #{@students.count} student."
     else
       puts "Now we have #{@students.count} students."
     end
     puts "Enter another student or press return to finish"
-    name = gets.delete("\n")
+    name = STDIN.gets.delete("\n")
   end
 end
 
@@ -97,7 +112,7 @@ def print_header
   puts  "The Students of Villains Academy".center(140)
   puts  "--------------------------------".center(140)
 end
-=begin
+
 def select_name_shorter_than_12(student)
   to_return = []
   student.each do |student|
@@ -112,7 +127,7 @@ def select_name_starting_with_char(student)
   end
   to_return
 end
-=end
+
 def print_students_list
   @students.sort_by! { |student| :cohort }
   @students.each do |student|
@@ -131,4 +146,6 @@ def print_footer
   puts "Overall, we have #{@students.count} great students"
 end
 
+
+try_load_students
 interactive_menu
