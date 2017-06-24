@@ -8,19 +8,12 @@ def interactive_menu
 end
 
 def print_menu
+  puts "Please select a number from the following options:"
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
   puts "4. Load the list from the students.csv"
   puts "9. Exit"
-end
-
-def show_students
-  print_header
-  #shorter_than_12 = select_name_shorter_than_12(@students)
-  #shorter_than_12_and_only_char = select_name_starting_with_char(shorter_than_12)
-  print_students_list
-  print_footer
 end
 
 def process(selection)
@@ -34,9 +27,10 @@ def process(selection)
   when "4"
     load_students
   when "9"
-    exit # thiswill cause the program to terminate
+    exit # this will cause the program to terminate
   else
-    puts "I don't know what you mean, try again"
+    puts "I don't know what you mean by '#{selection}', try again"
+    puts "-------------------------------------"
   end
 end
 
@@ -44,9 +38,13 @@ def try_load_students
   filename = ARGV.first # first argument from the command line
    if filename.nil?
      load_students
-     puts "Loaded #{@students.count} from students.csv"
-     return
-   end
+     puts "Loaded #{@students.count} from 'students.csv'"
+   else
+     if_load_file_exists(filename)
+  end
+end
+
+def if_load_file_exists(filename)
   if File.exists?(filename) # if it exists
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
@@ -98,7 +96,7 @@ def input_students
     if cohort.empty?
       cohort = "November"
     end
-    puts "To re-enter cohort type 'a' and press return or press return to continue"
+    puts "To re-enter cohort type 'a' and press 'return', or press 'return' to continue"
     re_enter = STDIN.gets.delete("\n")
     end
     add_students_to_var(name, age, hobby, postcode, c_o_b, cohort)
@@ -112,24 +110,25 @@ def input_students
   end
 end
 
+def show_students
+  print_header
+  #shorter_than_12 = select_name_shorter_than_12(@students)
+  #shorter_than_12_and_only_char = select_name_starting_with_char(shorter_than_12)
+  print_students_list
+  print_footer
+end
+
+def show_students
+  print_header
+  #shorter_than_12 = select_name_shorter_than_12(@students)
+  #shorter_than_12_and_only_char = select_name_starting_with_char(shorter_than_12)
+  print_students_list
+  print_footer
+end
+
 def print_header
   puts  "The Students of Villains Academy".center(140)
   puts  "--------------------------------".center(140)
-end
-
-def select_name_shorter_than_12(student)
-  to_return = []
-  student.each do |student|
-    to_return << student if student[:name].length < 12
-  end
-  to_return
-end
-def select_name_starting_with_char(student)
-  to_return = []
-  student.each do |student|
-    to_return << student if student[:name].start_with?("C") || student[:name].start_with?("c")
-  end
-  to_return
 end
 
 def print_students_list
@@ -148,8 +147,8 @@ end
 def print_footer
   puts
   puts "Overall, we have #{@students.count} great students"
+  puts
 end
-
 
 try_load_students
 interactive_menu
