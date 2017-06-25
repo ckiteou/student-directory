@@ -67,20 +67,18 @@ def load_file
 end
 
 def load_students(filename = "students.csv")
-  file = File.open(filename, "r")
-  @load_student_count = 0
-  file.readlines.each do |line|
-    name, age, hobby, postcode, c_o_b, cohort = line.chomp.split(",")
-    add_students_to_var(name, age, hobby, postcode, c_o_b, cohort)
-    @load_student_count += 1
+  count = 0
+    File.open(filename, "r").readlines.each do |line|
+      name, age, hobby, postcode, c_o_b, cohort = line.chomp.split(",")
+      add_students_to_var(name, age, hobby, postcode, c_o_b, cohort)
+      count += 1
   end
-  load_student_count_message(filename)
-  file.close
+  load_student_count_message(filename, count)
 end
 
-def load_student_count_message(filename)
+def load_student_count_message(filename, count)
   puts "--------------------------------------------------"
-  puts "#{@load_student_count} students loaded from '#{filename}'"
+  puts "#{count} students loaded from '#{filename}'"
   puts "--------------------------------------------------"
 end
 
@@ -99,18 +97,18 @@ def save_file
 end
 
 def save_students(filename)
-  file = File.open(filename, "w")
   count = 0
-  @students.each do |student|
-    student_data = [student[:name], student[:age], student[:hobby], student[:postcode], student[:c_o_b], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
-    count += 1
-  end
+    File.open(filename, "w") do |file|
+      @students.each do |student|
+        student_data = [student[:name], student[:age], student[:hobby], student[:postcode], student[:c_o_b], student[:cohort]]
+        csv_line = student_data.join(",")
+        file.puts csv_line
+        count += 1
+      end
+    end
   puts "--------------------------------------------------"
   puts "#{count} students saved to '#{filename}'"
   puts "--------------------------------------------------"
-  file.close
 end
 
 def add_students_to_var(name, age, hobby, postcode, c_o_b, cohort)
