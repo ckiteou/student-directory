@@ -26,6 +26,7 @@ def process(selection)
     save_students
   when "4"
     load_students
+    load_student_count_message
   when "9"
     exit # this will cause the program to terminate
   else
@@ -56,20 +57,31 @@ end
 
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
+  @load_student_count = 0
   file.readlines.each do |line|
     name, age, hobby, postcode, c_o_b, cohort = line.chomp.split(",")
     add_students_to_var(name, age, hobby, postcode, c_o_b, cohort)
+    @load_student_count += 1
   end
   file.close
 end
 
+def load_student_count_message
+  puts "#{@load_student_count} students loaded"
+  puts
+end
+
 def save_students
   file = File.open("students.csv", "w")
+  count = 0
   @students.each do |student|
     student_data = [student[:name], student[:age], student[:hobby], student[:postcode], student[:c_o_b], student[:cohort]]
     csv_line = student_data.join(",")
     file.puts csv_line
+    count += 1
   end
+  puts "#{count} students saved"
+  puts
   file.close
 end
 
@@ -138,7 +150,7 @@ def print_students_list
     print ("Age: #{student[:age]} ".ljust(24))
     print ("Hobby: #{student[:hobby]} ".ljust(24))
     print ("Postcode: #{student[:postcode]} ".ljust(24))
-    print ("Country of Birth: #{student[:c_o_b]} ".ljust(24))
+    print ("Country of Birth: #{student[:c_o_b]} ".ljust(30))
     print ("Cohort: #{student[:cohort]} ".ljust(24))
     print ("\n")
   end
