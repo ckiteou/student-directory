@@ -68,8 +68,9 @@ end
 
 def load_students(filename = "students.csv")
   count = 0
-    File.open(filename, "r").readlines.each do |line|
-      name, age, hobby, postcode, c_o_b, cohort = line.chomp.split(",")
+  require 'csv'
+    CSV.open(filename, "r").readlines.each do |line|
+      name, age, hobby, postcode, c_o_b, cohort = line
       add_students_to_var(name, age, hobby, postcode, c_o_b, cohort)
       count += 1
   end
@@ -98,11 +99,11 @@ end
 
 def save_students(filename)
   count = 0
-    File.open(filename, "w") do |file|
+  require 'csv'
+    CSV.open(filename, "w") do |file|
       @students.each do |student|
         student_data = [student[:name], student[:age], student[:hobby], student[:postcode], student[:c_o_b], student[:cohort]]
-        csv_line = student_data.join(",")
-        file.puts csv_line
+        file.puts student_data
         count += 1
       end
     end
