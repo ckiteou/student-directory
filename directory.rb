@@ -54,14 +54,14 @@ end
 
 def load_file
   puts "Which file would you like to load the data from?"
-  filename = gets.chomp
+  filename = STDIN.gets.chomp
   while !filename.empty?
     if File.exists?(filename) # if it exists
       load_students(filename)
       break
     else
       puts "Sorry, #{filename} doesn't exist. Please try again or press 'enter' to exit"
-      filename = gets.chomp
+      filename = STDIN.gets.chomp
     end
   end
 end
@@ -85,14 +85,14 @@ end
 
 def save_file
   puts "Which file would you like to save the data to?"
-  filename = gets.chomp
+  filename = STDIN.gets.chomp
   while !filename.empty?
     if File.exists?(filename) # if it exists
       save_students(filename)
       break
     else
       puts "Sorry, '#{filename}'' doesn't exist. Please try again or press 'enter' to exit"
-      filename = gets.chomp
+      filename = STDIN.gets.chomp
     end
   end
 end
